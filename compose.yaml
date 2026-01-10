@@ -35,6 +35,9 @@ services:
             MYSQL_USER: ${MYSQL_USER}
             MYSQL_PASSWORD: ${MYSQL_PASSWORD}
         <<: *env_file
+        volumes:
+            - ./init.sql:/docker-entrypoint-initdb.d/init.sql  # Добавьте эту строку
+            - mysql_data:/var/lib/mysql
 
 networks:
     backend:
@@ -42,4 +45,6 @@ networks:
         ipam:
             config:
                 - subnet: 172.20.0.0/24
-            
+
+volumes:
+    mysql_data:
