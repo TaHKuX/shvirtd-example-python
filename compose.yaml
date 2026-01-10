@@ -14,7 +14,7 @@ services:
             DB_PORT: 3306
             DB_NAME: ${MYSQL_DATABASE}
             DB_USER: ${MYSQL_USER}
-            DB_PASSWORD: ${MYSQL_PASSWORDD}
+            DB_PASSWORD: ${MYSQL_PASSWORD}
         <<: [*env_file]
         depends_on:
             - db
@@ -25,8 +25,8 @@ services:
                 ipv4_address: 172.20.0.10
         restart: always
         environment:
-            MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWOR}
-            MYSQL_DATABASE: ${MYSQL_DATABAS}
+            MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+            MYSQL_DATABASE: ${MYSQL_DATABASE}
             MYSQL_USER: ${MYSQL_USER}
             MYSQL_PASSWORD: ${MYSQL_PASSWORD}
         <<: [*env_file]
