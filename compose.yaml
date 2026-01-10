@@ -1,0 +1,38 @@
+include: proxy.yaml
+x-env_file: &env_file
+    env_file:
+        - .env
+services:
+    web:
+        image: cr.yandex/crpg91gu4q01tdnq3j8d/python-slim
+        networks:
+            backend:
+                ipv4_address: 172.20.0.5
+        restart: always
+        environment:
+            DB_HOST: db
+            DB_PORT: 3306
+            DB_NAME: ${MYSQL_DATABASEDB_NAME}
+            DB_USER: ${MYSQL_USER}
+            DB_PASSWORD: ${MYSQL_PASSWORDD}
+        <<: [*env_file]
+        depends_on:
+            - db
+    db:
+        image: mysql
+        networks:
+            backend:
+                ipv4_address: 172.20.0.10
+        restart: always
+        environment:
+            MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWOR}
+            MYSQL_DATABASE: ${MYSQL_DATABAS}
+            MYSQL_USER: ${MYSQL_USER}
+            MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+        <<: [*env_file]
+networks:
+    backend:
+        driver: bridge
+        ipam:
+            config:
+                subnet: 172.20.0.0/24
