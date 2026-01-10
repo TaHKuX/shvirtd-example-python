@@ -1,7 +1,12 @@
-include: proxy.yaml
+version: '3.8'
+
+include:
+    - proxy.yaml
+
 x-env_file: &env_file
     env_file:
         - .env
+
 services:
     web:
         image: cr.yandex/crpg91gu4q01tdnq3j8d/python-slim
@@ -15,11 +20,11 @@ services:
             DB_NAME: ${MYSQL_DATABASE}
             DB_USER: ${MYSQL_USER}
             DB_PASSWORD: ${MYSQL_PASSWORD}
-        <<: [*env_file]
+        <<: *env_file
         depends_on:
             - db
     db:
-        image: mysql
+        image: mysql:8
         networks:
             backend:
                 ipv4_address: 172.20.0.10
@@ -29,10 +34,12 @@ services:
             MYSQL_DATABASE: ${MYSQL_DATABASE}
             MYSQL_USER: ${MYSQL_USER}
             MYSQL_PASSWORD: ${MYSQL_PASSWORD}
-        <<: [*env_file]
+        <<: *env_file
+
 networks:
     backend:
         driver: bridge
         ipam:
             config:
                 subnet: 172.20.0.0/24
+            
